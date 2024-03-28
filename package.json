@@ -1,6 +1,6 @@
 {
   "name": "moonshot-node",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "moonshot kimi AI nodejs/Typescript OpenAPI SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
