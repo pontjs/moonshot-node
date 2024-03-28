@@ -7,14 +7,11 @@ Moonshot AI Nodejs/Typescript API SDK.
 
 月之暗面 AI Nodejs/Typescript API SDK.
 
-[Moonshot API 文档](https://www.pontxapi.com/apidoc/kimi)
+[Moonshot API 文档](https://www.pontxapi.com/opendoc/kimi)
 
 [Moonshot AI 控制台](https://platform.moonshot.cn/console/info)
 
 [Kimi 智能助手](https://kimi.moonshot.cn/)
-
-SDK 所有源码由 [Pontx](https://github.com/pontjs/pontx-pro) 自动生成。
-
 
 ## Features
 
