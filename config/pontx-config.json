@@ -1,0 +1,13 @@
+{
+  "outDir": "../src",
+  "name": "kimi",
+  "multiple": false,
+  "plugins": {
+    "generate": {
+      "options": {
+        "sdkType": "nodejs"
+      }
+    }
+  },
+  "url": "https://www.pontxapi.com/openapi/projects/kimi/spec"
+}

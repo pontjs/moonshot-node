@@ -1,0 +1,757 @@
+{
+  "apis": {
+    "chat/createCompletion": {
+      "consumes": [],
+      "method": "POST",
+      "name": "createCompletion",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/ChatCompletionRequest"
+          }
+        }
+      ],
+      "path": "/chat/completions",
+      "produces": [],
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/definitions/ChatCompletionResponse"
+          }
+        }
+      },
+      "title": "AI Chat Completion"
+    },
+    "chat/createStreamChatCompletion": {
+      "consumes": [],
+      "method": "POST",
+      "name": "createStreamChatCompletion",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/ChatCompletionStreamRequest"
+          }
+        }
+      ],
+      "path": "/chat/completions",
+      "produces": [
+        "application/octet-stream"
+      ],
+      "responses": {
+        "200": {
+          "schema": {
+            "type": "object"
+          }
+        }
+      },
+      "title": "AI Chat Completion"
+    },
+    "files/create": {
+      "consumes": [
+        "multipart/form-data"
+      ],
+      "method": "post",
+      "name": "createFile",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/CreateFileRequest"
+          }
+        }
+      ],
+      "path": "/files",
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/definitions/OpenAIFile"
+          }
+        }
+      },
+      "summary": "Upload a file that can be used across various endpoints. The size of all the files uploaded by one organization can be up to 100 GB.\n\nThe size of individual files can be a maximum of 512 MB or 2 million tokens for Assistants. See the [Assistants Tools guide](/docs/assistants/tools) to learn more about the types of files supported. The Fine-tuning API only supports `.jsonl` files.\n\nPlease [contact us](https://help.openai.com/) if you need to increase these storage limits.\n"
+    },
+    "files/delete": {
+      "consumes": [],
+      "method": "delete",
+      "name": "deleteFile",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "file_id",
+          "required": true,
+          "schema": {
+            "description": "The ID of the file to use for this request.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        }
+      ],
+      "path": "/files/{file_id}",
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/definitions/DeleteFileResponse"
+          }
+        }
+      },
+      "title": "删除文件"
+    },
+    "files/download": {
+      "consumes": [],
+      "method": "get",
+      "name": "download",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "file_id",
+          "required": true,
+          "schema": {
+            "description": "The ID of the file to use for this request.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        }
+      ],
+      "path": "/files/{file_id}/content",
+      "responses": {
+        "200": {
+          "schema": {
+            "type": "string"
+          }
+        }
+      },
+      "summary": "获取文件内容"
+    },
+    "files/list": {
+      "consumes": [],
+      "method": "GET",
+      "name": "list",
+      "parameters": [],
+      "path": "/files",
+      "produces": [],
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/definitions/ListFilesResponse"
+          }
+        }
+      },
+      "title": "List Files"
+    },
+    "files/retrive": {
+      "consumes": [],
+      "method": "get",
+      "name": "retrieve",
+      "parameters": [
+        {
+          "in": "path",
+          "name": "file_id",
+          "required": true,
+          "schema": {
+            "description": "The ID of the file to use for this request.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        }
+      ],
+      "path": "/files/{file_id}",
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/definitions/OpenAIFile"
+          }
+        }
+      },
+      "title": "获取文件信息"
+    },
+    "models/list": {
+      "consumes": [],
+      "method": "GET",
+      "name": "list",
+      "parameters": [],
+      "path": "/models",
+      "produces": [],
+      "responses": {
+        "200": {
+          "schema": {
+            "$ref": "#/definitions/ListModelsResponse"
+          }
+        }
+      },
+      "title": "List Models"
+    },
+    "tokenizers/estimate": {
+      "consumes": [],
+      "method": "POST",
+      "name": "estimate",
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/ChatCompletionRequest"
+          }
+        }
+      ],
+      "path": "/tokenizers/estimate-token-count",
+      "produces": [],
+      "responses": {
+        "200": {
+          "schema": {
+            "properties": {
+              "data": {
+                "properties": {
+                  "total_tokens": {
+                    "type": "number"
+                  }
+                },
+                "type": "object"
+              }
+            },
+            "type": "object"
+          }
+        }
+      },
+      "title": "计算 Token"
+    }
+  },
+  "basePath": "/v1",
+  "definitions": {
+    "ChatCompletionRequest": {
+      "properties": {
+        "frequency_penalty": {
+          "default": 0,
+          "description": "频率惩罚，介于-2.0到2.0之间的数字。",
+          "maximum": 2,
+          "minimum": -2,
+          "type": "number"
+        },
+        "max_tokens": {
+          "description": "聊天完成时生成的最大 token 数。",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "messages": {
+          "description": "包含迄今为止对话的消息列表。",
+          "items": {
+            "properties": {
+              "content": {
+                "description": "消息的具体内容。",
+                "type": "string"
+              },
+              "role": {
+                "description": "消息的发送者角色。",
+                "enum": [
+                  "system",
+                  "user",
+                  "assistant"
+                ],
+                "type": "string"
+              }
+            },
+            "required": false,
+            "type": "object"
+          },
+          "minItems": 1,
+          "required": true,
+          "type": "array"
+        },
+        "model": {
+          "description": "Model ID, 可以通过 List Models 获取。",
+          "enum": [
+            "moonshot-v1-8k",
+            "moonshot-v1-32k",
+            "moonshot-v1-128k"
+          ],
+          "required": true,
+          "type": "string"
+        },
+        "n": {
+          "default": 1,
+          "description": "为每条输入消息生成多少个结果。",
+          "maximum": 5,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "presence_penalty": {
+          "default": 0,
+          "description": "存在惩罚，介于-2.0到2.0之间的数字。",
+          "maximum": 2,
+          "minimum": -2,
+          "type": "number"
+        },
+        "stop": {
+          "description": "停止词，当全匹配这个（组）词后会停止输出。",
+          "items": {
+            "maxLength": 32,
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "type": "array"
+        },
+        "temperature": {
+          "default": 0.3,
+          "description": "使用什么采样温度，介于 0 和 1 之间。",
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "top_p": {
+          "default": 1,
+          "description": "另一种采样温度。",
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": false,
+      "type": "object"
+    },
+    "ChatCompletionResponse": {
+      "properties": {
+        "choices": {
+          "description": "完成的选项数组。",
+          "items": {
+            "properties": {
+              "finish_reason": {
+                "description": "完成的原因。",
+                "enum": [
+                  "stop",
+                  "length"
+                ],
+                "type": "string"
+              },
+              "index": {
+                "description": "选项的索引。",
+                "minimum": 0,
+                "type": "integer"
+              },
+              "message": {
+                "properties": {
+                  "content": {
+                    "description": "消息的具体内容。",
+                    "type": "string"
+                  },
+                  "role": {
+                    "description": "消息的发送者角色。",
+                    "enum": [
+                      "assistant",
+                      "user"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": false,
+                "type": "object"
+              }
+            },
+            "required": false,
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "created": {
+          "description": "创建时间的时间戳。",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "id": {
+          "description": "Completion的唯一标识符。",
+          "pattern": "^[a-f0-9]{32}$",
+          "type": "string"
+        },
+        "model": {
+          "description": "使用的模型ID。",
+          "enum": [
+            "moonshot-v1-8k",
+            "moonshot-v1-32k",
+            "moonshot-v1-128k"
+          ],
+          "type": "string"
+        },
+        "object": {
+          "description": "对象的类型，对于聊天完成事件应为 'chat.completion'。",
+          "enum": [
+            "chat.completion"
+          ],
+          "type": "string"
+        },
+        "usage": {
+          "properties": {
+            "completion_tokens": {
+              "description": "完成使用的token数量。",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "prompt_tokens": {
+              "description": "提示使用的token数量。",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "total_tokens": {
+              "description": "总使用的token数量。",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": false,
+          "type": "object"
+        }
+      },
+      "required": false,
+      "type": "object"
+    },
+    "ChatCompletionStreamRequest": {
+      "properties": {
+        "frequency_penalty": {
+          "default": 0,
+          "description": "频率惩罚，介于-2.0到2.0之间的数字。",
+          "maximum": 2,
+          "minimum": -2,
+          "type": "number"
+        },
+        "max_tokens": {
+          "description": "聊天完成时生成的最大 token 数。",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "messages": {
+          "description": "包含迄今为止对话的消息列表。",
+          "items": {
+            "properties": {
+              "content": {
+                "description": "消息的具体内容。",
+                "type": "string"
+              },
+              "role": {
+                "description": "消息的发送者角色。",
+                "enum": [
+                  "system",
+                  "user",
+                  "assistant"
+                ],
+                "type": "string"
+              }
+            },
+            "required": false,
+            "type": "object"
+          },
+          "minItems": 1,
+          "required": true,
+          "type": "array"
+        },
+        "model": {
+          "description": "Model ID, 可以通过 List Models 获取。",
+          "enum": [
+            "moonshot-v1-8k",
+            "moonshot-v1-32k",
+            "moonshot-v1-128k"
+          ],
+          "required": true,
+          "type": "string"
+        },
+        "n": {
+          "default": 1,
+          "description": "为每条输入消息生成多少个结果。",
+          "maximum": 5,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "presence_penalty": {
+          "default": 0,
+          "description": "存在惩罚，介于-2.0到2.0之间的数字。",
+          "maximum": 2,
+          "minimum": -2,
+          "type": "number"
+        },
+        "stop": {
+          "description": "停止词，当全匹配这个（组）词后会停止输出。",
+          "items": {
+            "maxLength": 32,
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "type": "array"
+        },
+        "temperature": {
+          "default": 0.3,
+          "description": "使用什么采样温度，介于 0 和 1 之间。",
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        },
+        "top_p": {
+          "default": 1,
+          "description": "另一种采样温度。",
+          "maximum": 1,
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "required": false,
+      "type": "object"
+    },
+    "CreateFileRequest": {
+      "properties": {
+        "file": {
+          "description": "The File object (not file name) to be uploaded.\n",
+          "format": "binary",
+          "required": true,
+          "type": "string"
+        },
+        "purpose": {
+          "description": "The intended purpose of the uploaded file.\n\nUse \"fine-tune\" for [Fine-tuning](/docs/api-reference/fine-tuning) and \"assistants\" for [Assistants](/docs/api-reference/assistants) and [Messages](/docs/api-reference/messages). This allows us to validate the format of the uploaded file is correct for fine-tuning.\n",
+          "enum": [
+            "fine-tune",
+            "assistants"
+          ],
+          "required": true,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "DeleteFileResponse": {
+      "properties": {
+        "deleted": {
+          "required": true,
+          "type": "boolean"
+        },
+        "id": {
+          "required": true,
+          "type": "string"
+        },
+        "object": {
+          "enum": [
+            "file"
+          ],
+          "required": true,
+          "type": "string"
+        }
+      },
+      "templateArgs": [],
+      "type": "object",
+      "typeName": "DeleteFileResponse"
+    },
+    "ListFilesResponse": {
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/definitions/OpenAIFile",
+            "originRef": "#/components/schemas/OpenAIFile",
+            "templateArgs": [],
+            "typeName": "OpenAIFile"
+          },
+          "required": true,
+          "type": "array"
+        },
+        "object": {
+          "enum": [
+            "list"
+          ],
+          "required": true,
+          "type": "string"
+        }
+      },
+      "requiredProps": [
+        "object",
+        "data"
+      ],
+      "templateArgs": [],
+      "type": "object",
+      "typeName": "ListFilesResponse"
+    },
+    "ListModelsResponse": {
+      "properties": {
+        "data": {
+          "items": {
+            "$ref": "#/definitions/Model",
+            "originRef": "#/components/schemas/Model",
+            "templateArgs": [],
+            "typeName": "Model"
+          },
+          "required": true,
+          "type": "array"
+        },
+        "object": {
+          "enum": [
+            "list"
+          ],
+          "required": true,
+          "type": "string"
+        }
+      },
+      "requiredProps": [
+        "object",
+        "data"
+      ],
+      "templateArgs": [],
+      "type": "object",
+      "typeName": "ListModelsResponse"
+    },
+    "Model": {
+      "description": "Describes an OpenAI model offering that can be used with the API.",
+      "properties": {
+        "created": {
+          "description": "The Unix timestamp (in seconds) when the model was created.",
+          "required": true,
+          "type": "number"
+        },
+        "id": {
+          "description": "The model identifier, which can be referenced in the API endpoints.",
+          "required": true,
+          "type": "string"
+        },
+        "object": {
+          "description": "The object type, which is always \"model\".",
+          "enum": [
+            "model"
+          ],
+          "required": true,
+          "type": "string"
+        },
+        "owned_by": {
+          "description": "The organization that owns the model.",
+          "required": true,
+          "type": "string"
+        }
+      },
+      "title": "Model",
+      "type": "object"
+    },
+    "OpenAIFile": {
+      "description": "The `File` object represents a document that has been uploaded to OpenAI.",
+      "properties": {
+        "bytes": {
+          "description": "The size of the file, in bytes.",
+          "required": true,
+          "type": "number"
+        },
+        "created_at": {
+          "description": "The Unix timestamp (in seconds) for when the file was created.",
+          "required": true,
+          "type": "number"
+        },
+        "filename": {
+          "description": "The name of the file.",
+          "required": true,
+          "type": "string"
+        },
+        "id": {
+          "description": "The file identifier, which can be referenced in the API endpoints.",
+          "required": true,
+          "type": "string"
+        },
+        "object": {
+          "description": "The object type, which is always `file`.",
+          "enum": [
+            "file"
+          ],
+          "required": true,
+          "type": "string"
+        },
+        "purpose": {
+          "description": "The intended purpose of the file. Supported values are `fine-tune`, `fine-tune-results`, `assistants`, and `assistants_output`.",
+          "enum": [
+            "fine-tune",
+            "fine-tune-results",
+            "assistants",
+            "assistants_output"
+          ],
+          "required": true,
+          "type": "string"
+        },
+        "status": {
+          "deprecated": true,
+          "description": "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`.",
+          "enum": [
+            "uploaded",
+            "processed",
+            "error"
+          ],
+          "required": true,
+          "type": "string"
+        },
+        "status_details": {
+          "deprecated": true,
+          "description": "Deprecated. For details on why a fine-tuning training file failed validation, see the `error` field on `fine_tuning.job`.",
+          "required": false,
+          "type": "string"
+        }
+      },
+      "requiredProps": [
+        "id",
+        "object",
+        "bytes",
+        "created_at",
+        "filename",
+        "purpose",
+        "status"
+      ],
+      "title": "OpenAIFile",
+      "type": "object"
+    }
+  },
+  "directories": [
+    {
+      "children": [
+        "chat/createCompletion",
+        "chat/createStreamChatCompletion"
+      ],
+      "namespace": "chat",
+      "title": ""
+    },
+    {
+      "children": [
+        "models/list"
+      ],
+      "namespace": "models",
+      "title": ""
+    },
+    {
+      "children": [
+        "files/list",
+        "files/create",
+        "files/delete",
+        "files/retrive",
+        "files/download"
+      ],
+      "namespace": "files",
+      "title": ""
+    },
+    {
+      "children": [
+        "tokenizers/estimate"
+      ],
+      "namespace": "tokenizers",
+      "title": ""
+    }
+  ],
+  "host": "api.moonshot.cn",
+  "name": "single",
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "securitySchemes": {
+    "ApiKeyAuth": {
+      "scheme": "bearer",
+      "type": "http"
+    }
+  }
+}
