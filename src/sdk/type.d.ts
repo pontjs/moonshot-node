@@ -83,19 +83,22 @@ export namespace defs {
   }
 
   export type CreateFileRequest = {
-    /** The File object (not file name) to be uploaded.
+    /** 要上传的文件对象（不是文件名）。
      */
     file: string;
-    /** The intended purpose of the uploaded file.
+    /** 上传文件的预期用途。
 
-    Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tuning) and "assistants" for [Assistants](/docs/api-reference/assistants) and [Messages](/docs/api-reference/messages). This allows us to validate the format of the uploaded file is correct for fine-tuning.
+    使用"fine-tune"进行[微调](/docs/api-reference/fine-tuning)，使用"assistants"进行[助手](/docs/api-reference/assistants)和[消息](/docs/api-reference/messages)。这样可以验证上传文件的格式是否正确用于微调。
      */
     purpose: 'fine-tune' | 'assistants';
   }
 
   export type DeleteFileResponse = {
+    /** 表示文件是否已被成功删除 */
     deleted: boolean;
+    /** 文件的唯一标识符 */
     id: string;
+    /** 对象类型，此处为文件 */
     object: 'file';
   }
 
@@ -110,32 +113,32 @@ export namespace defs {
   }
 
   export type Model = {
-    /** The Unix timestamp (in seconds) when the model was created. */
+    /** 模型创建的 Unix 时间戳（以秒为单位）。 */
     created: number;
-    /** The model identifier, which can be referenced in the API endpoints. */
+    /** 模型标识符，可在 API 端点中引用。 */
     id: string;
-    /** The object type, which is always "model". */
+    /** 对象类型，始终为“model”。 */
     object: 'model';
-    /** The organization that owns the model. */
+    /** 拥有模型的组织。 */
     owned_by: string;
   }
 
   export type OpenAIFile = {
-    /** The size of the file, in bytes. */
+    /** 文件大小，以字节为单位。 */
     bytes: number;
-    /** The Unix timestamp (in seconds) for when the file was created. */
+    /** 文件创建的Unix时间戳（以秒为单位）。 */
     created_at: number;
-    /** The name of the file. */
+    /** 文件名。 */
     filename: string;
-    /** The file identifier, which can be referenced in the API endpoints. */
+    /** 文件标识符，可在API端点中引用。 */
     id: string;
-    /** The object type, which is always `file`. */
+    /** 对象类型，始终为`文件`。 */
     object: 'file';
-    /** The intended purpose of the file. Supported values are `fine-tune`, `fine-tune-results`, `assistants`, and `assistants_output`. */
+    /** 文件的预期用途。支持的值为`fine-tune`、`fine-tune-results`、`assistants`和`assistants_output`。 */
     purpose: 'fine-tune' | 'fine-tune-results' | 'assistants' | 'assistants_output';
-    /** Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`. */
+    /** 已弃用。文件的当前状态，可以是`uploaded`、`processed`或`error`。 */
     status: 'uploaded' | 'processed' | 'error';
-    /** Deprecated. For details on why a fine-tuning training file failed validation, see the `error` field on `fine_tuning.job`. */
+    /** 已弃用。有关为什么微调训练文件未通过验证的详细信息，请参阅`fine_tuning.job`上的`error`字段。 */
     status_details?: string;
   }
 }
@@ -165,31 +168,7 @@ export namespace API {
     }
   }
 
-  export namespace models {
-    /**
-     * GET /models
-     * @title: List Models
-     */
-    export namespace list {
-      export type Params = {};
-      export type method = 'GET';
-      export type bodyParams = undefined;
-      export type APIResponse = defs.ListModelsResponse;
-    }
-  }
-
   export namespace files {
-    /**
-     * GET /files
-     * @title: List Files
-     */
-    export namespace list {
-      export type Params = {};
-      export type method = 'GET';
-      export type bodyParams = undefined;
-      export type APIResponse = defs.ListFilesResponse;
-    }
-
     /**
      * POST /files
      * @summary: Upload a file that can be used across various endpoints. The size of all the files uploaded by one organization can be up to 100 GB.
@@ -221,20 +200,6 @@ export namespace API {
     }
 
     /**
-     * GET /files/{file_id}
-     * @title: 获取文件信息
-     */
-    export namespace retrieve {
-      export type Params = {
-        /** The ID of the file to use for this request. */
-        file_id: string;
-      };
-      export type method = 'GET';
-      export type bodyParams = undefined;
-      export type APIResponse = defs.OpenAIFile;
-    }
-
-    /**
      * GET /files/{file_id}/content
      * @summary: 获取文件内容
      */
@@ -246,6 +211,44 @@ export namespace API {
       export type method = 'GET';
       export type bodyParams = undefined;
       export type APIResponse = string;
+    }
+
+    /**
+     * GET /files
+     * @title: List Files
+     */
+    export namespace list {
+      export type Params = {};
+      export type method = 'GET';
+      export type bodyParams = undefined;
+      export type APIResponse = defs.ListFilesResponse;
+    }
+
+    /**
+     * GET /files/{file_id}
+     * @title: 获取文件信息
+     */
+    export namespace retrive {
+      export type Params = {
+        /** The ID of the file to use for this request. */
+        file_id: string;
+      };
+      export type method = 'GET';
+      export type bodyParams = undefined;
+      export type APIResponse = defs.OpenAIFile;
+    }
+  }
+
+  export namespace models {
+    /**
+     * GET /models
+     * @title: List Models
+     */
+    export namespace list {
+      export type Params = {};
+      export type method = 'GET';
+      export type bodyParams = undefined;
+      export type APIResponse = defs.ListModelsResponse;
     }
   }
 

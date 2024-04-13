@@ -15,12 +15,16 @@ const main = async () => {
     ],
     stream: true,
   });
-  while (true) {
-    const { done, value } = await result.read();
-    console.log(value);
-    if (done) {
-      return;
+  try {
+    while (true) {
+      const { done, value } = await result.readContent();
+      process.stdout.write(value);
+      if (done) {
+        return;
+      }
     }
+  } catch (e) {
+    console.log(e);
   }
 };
 

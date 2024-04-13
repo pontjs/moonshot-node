@@ -7,6 +7,17 @@ type SDKMethods4<Method, Params, BodyParams, Response> = ReturnType<
   typeof provider.getSDKMethods<Method, Params, BodyParams, Response>
 >;
 
+type OctetStreamSDKMethods3<Method, Params, Response> = ReturnType<typeof provider.getOctetStreamSDKMethods<Method, Params, Response>>;
+type OctetStreamSDKMethods4<Method, Params, BodyParams, Response> = ReturnType<
+  typeof provider.getOctetStreamSDKMethods<Method, Params, BodyParams, Response>
+>;
+
+type EventStreamSDKMethods2<Method, Response> = ReturnType<typeof provider.getEventStreamSDKMethods<Method, Response>>;
+type EventStreamSDKMethods3<Method, Params, Response> = ReturnType<typeof provider.getEventStreamSDKMethods<Method, Params, Response>>;
+type EventStreamSDKMethods4<Method, Params, BodyParams, Response> = ReturnType<
+  typeof provider.getEventStreamSDKMethods<Method, Params, BodyParams, Response>
+>;
+
 export namespace APIs {
   export namespace chat {
     /**
@@ -23,34 +34,14 @@ export namespace APIs {
      * POST /chat/completions
      * @title: AI Chat Completion
      */
-    export const createStreamChatCompletion: SDKMethods3<
+    export const createStreamChatCompletion: OctetStreamSDKMethods3<
       API.chat.createStreamChatCompletion.method,
       API.chat.createStreamChatCompletion.bodyParams,
       API.chat.createStreamChatCompletion.APIResponse
     >;
   }
 
-  export namespace models {
-    /**
-     * GET /models
-     * @title: List Models
-     */
-    export const list: SDKMethods2<
-      API.models.list.method,
-      API.models.list.APIResponse
-    >;
-  }
-
   export namespace files {
-    /**
-     * GET /files
-     * @title: List Files
-     */
-    export const list: SDKMethods2<
-      API.files.list.method,
-      API.files.list.APIResponse
-    >;
-
     /**
      * POST /files
      * @summary: Upload a file that can be used across various endpoints. The size of all the files uploaded by one organization can be up to 100 GB.
@@ -77,16 +68,6 @@ export namespace APIs {
     >;
 
     /**
-     * GET /files/{file_id}
-     * @title: 获取文件信息
-     */
-    export const retrieve: SDKMethods3<
-      API.files.retrieve.method,
-      API.files.retrieve.Params,
-      API.files.retrieve.APIResponse
-    >;
-
-    /**
      * GET /files/{file_id}/content
      * @summary: 获取文件内容
      */
@@ -94,6 +75,36 @@ export namespace APIs {
       API.files.download.method,
       API.files.download.Params,
       API.files.download.APIResponse
+    >;
+
+    /**
+     * GET /files
+     * @title: List Files
+     */
+    export const list: SDKMethods2<
+      API.files.list.method,
+      API.files.list.APIResponse
+    >;
+
+    /**
+     * GET /files/{file_id}
+     * @title: 获取文件信息
+     */
+    export const retrive: SDKMethods3<
+      API.files.retrive.method,
+      API.files.retrive.Params,
+      API.files.retrive.APIResponse
+    >;
+  }
+
+  export namespace models {
+    /**
+     * GET /models
+     * @title: List Models
+     */
+    export const list: SDKMethods2<
+      API.models.list.method,
+      API.models.list.APIResponse
     >;
   }
 

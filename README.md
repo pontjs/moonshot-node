@@ -13,6 +13,8 @@ Moonshot AI Nodejs/Typescript API SDK.
 
 [Kimi 智能助手](https://kimi.moonshot.cn/)
 
+Powered By [Pontx](https://www.pontxapi.com)
+
 ## Features
 
 * 覆盖支持月之暗面所有开放 API。
@@ -48,8 +50,8 @@ const main = async () => {
   });
 
   while (true) {
-    const { done, value } = await result.read();
-    console.log(value);
+    const { done, value } = await result.readContent();
+    process.stdout.write(value);
     if (done) {
       return;
     }
@@ -62,17 +64,13 @@ main();
 打印信息如下：
 
 ```
-月之暗面（Moonshot Corp.）是一家虚构的公司，因此，我将为您提供一个假设性的介绍，
-关于这家公司的产品优势。
+月之暗面（Moonshot Corp.）是一家虚构的公司，因此，我将为您提供一个假设性的产品优势介绍。请注意，以下信息并非基于现实中的公司或产品。
 
-1. 创新技术：
-月之暗面公司致力于研发前沿科技，
-以满足客户不断变化的需求。我们的产品采用最新的技术，
-确保在市场中保持竞争力。
+月之暗面的产品优势：
 
-2. 高品质：
-我们非常注重产品的质量，从设计、生产到销售的每一个环节都严格把关。
-我们的目标是为客户提供最优质的产品，确保客户满意度。
+1. 创新技术：月之暗面致力于研发前沿科技，以满足客户不断变化的需求。我们的产品采用了最新的技术，确保在性能、效率和可靠性方面处于行业领先地位。
+
+2. 定制解决方案：我们明白每个客户的需求都是独特的，因此我们提供定制化的解决方案，以满足不同行业和应用场景的需求。我们的专业团队将与您紧密合作，确保为您提供最佳的产品和服务。
 
 ...更多打印信息略
 ```

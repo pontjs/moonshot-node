@@ -26,31 +26,7 @@ const specMeta = {
         "controllerName": "chat"
       }
     },
-    "models": {
-      "list": {
-        "method": "GET",
-        "hasBody": false,
-        "hasParams": false,
-        "consumes": [],
-        "produces": [],
-        "apiName": "list",
-        "path": "/models",
-        "specName": "single",
-        "controllerName": "models"
-      }
-    },
     "files": {
-      "list": {
-        "method": "GET",
-        "hasBody": false,
-        "hasParams": false,
-        "consumes": [],
-        "produces": [],
-        "apiName": "list",
-        "path": "/files",
-        "specName": "single",
-        "controllerName": "files"
-      },
       "createFile": {
         "method": "post",
         "hasBody": true,
@@ -73,16 +49,6 @@ const specMeta = {
         "specName": "single",
         "controllerName": "files"
       },
-      "retrieve": {
-        "method": "get",
-        "hasBody": false,
-        "hasParams": true,
-        "consumes": [],
-        "apiName": "retrieve",
-        "path": "/files/{file_id}",
-        "specName": "single",
-        "controllerName": "files"
-      },
       "download": {
         "method": "get",
         "hasBody": false,
@@ -92,6 +58,40 @@ const specMeta = {
         "path": "/files/{file_id}/content",
         "specName": "single",
         "controllerName": "files"
+      },
+      "list": {
+        "method": "GET",
+        "hasBody": false,
+        "hasParams": false,
+        "consumes": [],
+        "produces": [],
+        "apiName": "list",
+        "path": "/files",
+        "specName": "single",
+        "controllerName": "files"
+      },
+      "retrive": {
+        "method": "get",
+        "hasBody": false,
+        "hasParams": true,
+        "consumes": [],
+        "apiName": "retrive",
+        "path": "/files/{file_id}",
+        "specName": "single",
+        "controllerName": "files"
+      }
+    },
+    "models": {
+      "list": {
+        "method": "GET",
+        "hasBody": false,
+        "hasParams": false,
+        "consumes": [],
+        "produces": [],
+        "apiName": "list",
+        "path": "/models",
+        "specName": "single",
+        "controllerName": "models"
       }
     },
     "tokenizers": {
@@ -110,6 +110,7 @@ const specMeta = {
   },
   "hasController": true,
   "specName": "single",
+  "description": "月之暗面(Moonshot AI) OpenAPI",
   "basePath": "/v1",
   "host": "api.moonshot.cn",
   "securitySchemes": {

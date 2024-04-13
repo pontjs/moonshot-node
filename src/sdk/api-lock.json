@@ -52,7 +52,7 @@
       },
       "title": "AI Chat Completion"
     },
-    "files/create": {
+    "files/createFile": {
       "consumes": [
         "multipart/form-data"
       ],
@@ -78,7 +78,7 @@
       },
       "summary": "Upload a file that can be used across various endpoints. The size of all the files uploaded by one organization can be up to 100 GB.\n\nThe size of individual files can be a maximum of 512 MB or 2 million tokens for Assistants. See the [Assistants Tools guide](/docs/assistants/tools) to learn more about the types of files supported. The Fine-tuning API only supports `.jsonl` files.\n\nPlease [contact us](https://help.openai.com/) if you need to increase these storage limits.\n"
     },
-    "files/delete": {
+    "files/deleteFile": {
       "consumes": [],
       "method": "delete",
       "name": "deleteFile",
@@ -508,13 +508,13 @@
     "CreateFileRequest": {
       "properties": {
         "file": {
-          "description": "The File object (not file name) to be uploaded.\n",
+          "description": "要上传的文件对象（不是文件名）。\n",
           "format": "binary",
           "required": true,
           "type": "string"
         },
         "purpose": {
-          "description": "The intended purpose of the uploaded file.\n\nUse \"fine-tune\" for [Fine-tuning](/docs/api-reference/fine-tuning) and \"assistants\" for [Assistants](/docs/api-reference/assistants) and [Messages](/docs/api-reference/messages). This allows us to validate the format of the uploaded file is correct for fine-tuning.\n",
+          "description": "上传文件的预期用途。\n\n使用\"fine-tune\"进行[微调](/docs/api-reference/fine-tuning)，使用\"assistants\"进行[助手](/docs/api-reference/assistants)和[消息](/docs/api-reference/messages)。这样可以验证上传文件的格式是否正确用于微调。\n",
           "enum": [
             "fine-tune",
             "assistants"
@@ -528,14 +528,17 @@
     "DeleteFileResponse": {
       "properties": {
         "deleted": {
+          "description": "表示文件是否已被成功删除",
           "required": true,
           "type": "boolean"
         },
         "id": {
+          "description": "文件的唯一标识符",
           "required": true,
           "type": "string"
         },
         "object": {
+          "description": "对象类型，此处为文件",
           "enum": [
             "file"
           ],
@@ -604,20 +607,20 @@
       "typeName": "ListModelsResponse"
     },
     "Model": {
-      "description": "Describes an OpenAI model offering that can be used with the API.",
+      "description": "描述可以与 API 一起使用的 OpenAI 模型提供。",
       "properties": {
         "created": {
-          "description": "The Unix timestamp (in seconds) when the model was created.",
+          "description": "模型创建的 Unix 时间戳（以秒为单位）。",
           "required": true,
           "type": "number"
         },
         "id": {
-          "description": "The model identifier, which can be referenced in the API endpoints.",
+          "description": "模型标识符，可在 API 端点中引用。",
           "required": true,
           "type": "string"
         },
         "object": {
-          "description": "The object type, which is always \"model\".",
+          "description": "对象类型，始终为“model”。",
           "enum": [
             "model"
           ],
@@ -625,39 +628,39 @@
           "type": "string"
         },
         "owned_by": {
-          "description": "The organization that owns the model.",
+          "description": "拥有模型的组织。",
           "required": true,
           "type": "string"
         }
       },
-      "title": "Model",
+      "title": "模型",
       "type": "object"
     },
     "OpenAIFile": {
-      "description": "The `File` object represents a document that has been uploaded to OpenAI.",
+      "description": "`文件`对象表示已上传到OpenAI的文档。",
       "properties": {
         "bytes": {
-          "description": "The size of the file, in bytes.",
+          "description": "文件大小，以字节为单位。",
           "required": true,
           "type": "number"
         },
         "created_at": {
-          "description": "The Unix timestamp (in seconds) for when the file was created.",
+          "description": "文件创建的Unix时间戳（以秒为单位）。",
           "required": true,
           "type": "number"
         },
         "filename": {
-          "description": "The name of the file.",
+          "description": "文件名。",
           "required": true,
           "type": "string"
         },
         "id": {
-          "description": "The file identifier, which can be referenced in the API endpoints.",
+          "description": "文件标识符，可在API端点中引用。",
           "required": true,
           "type": "string"
         },
         "object": {
-          "description": "The object type, which is always `file`.",
+          "description": "对象类型，始终为`文件`。",
           "enum": [
             "file"
           ],
@@ -665,7 +668,7 @@
           "type": "string"
         },
         "purpose": {
-          "description": "The intended purpose of the file. Supported values are `fine-tune`, `fine-tune-results`, `assistants`, and `assistants_output`.",
+          "description": "文件的预期用途。支持的值为`fine-tune`、`fine-tune-results`、`assistants`和`assistants_output`。",
           "enum": [
             "fine-tune",
             "fine-tune-results",
@@ -677,7 +680,7 @@
         },
         "status": {
           "deprecated": true,
-          "description": "Deprecated. The current status of the file, which can be either `uploaded`, `processed`, or `error`.",
+          "description": "已弃用。文件的当前状态，可以是`uploaded`、`processed`或`error`。",
           "enum": [
             "uploaded",
             "processed",
@@ -688,7 +691,7 @@
         },
         "status_details": {
           "deprecated": true,
-          "description": "Deprecated. For details on why a fine-tuning training file failed validation, see the `error` field on `fine_tuning.job`.",
+          "description": "已弃用。有关为什么微调训练文件未通过验证的详细信息，请参阅`fine_tuning.job`上的`error`字段。",
           "required": false,
           "type": "string"
         }
@@ -702,10 +705,11 @@
         "purpose",
         "status"
       ],
-      "title": "OpenAIFile",
+      "title": "OpenAI文件",
       "type": "object"
     }
   },
+  "description": "月之暗面(Moonshot AI) OpenAPI",
   "directories": [
     {
       "children": [
@@ -720,17 +724,6 @@
         "models/list"
       ],
       "namespace": "models",
-      "title": ""
-    },
-    {
-      "children": [
-        "files/list",
-        "files/create",
-        "files/delete",
-        "files/retrive",
-        "files/download"
-      ],
-      "namespace": "files",
       "title": ""
     },
     {
